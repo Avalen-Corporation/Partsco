@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block body_maincontent %}
+    <!-- LIGHT SECTION -->
+    <section class="lightSection clearfix pageHeader">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="page-title">
+                        <h2>SINGLE ORDER</h2>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <ol class="breadcrumb pull-right">
+                        <li>
+                            <a href="index.html">Home</a>
+                        </li>
+                        <li class="active">SINGLE ORDER</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAIN CONTENT SECTION -->
+    <section class="mainContent clearfix userProfile">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="btn-group" role="group" aria-label="...">
+                        <a href="{% url 'account_dashboard' %}" class="btn btn-default"><i class="fa fa-th" aria-hidden="true"></i>Account Dashboard</a>
+                        <a href="{% url 'account_profile' %}" class="btn btn-default"><i class="fa fa-user" aria-hidden="true"></i>Profile</a>
+                        <a href="{% url 'account_addresses' %}" class="btn btn-default"><i class="fa fa-map-marker" aria-hidden="true"></i>My Address</a>
+                        <a href="{% url 'account_orders' %}" class="btn btn-default active"><i class="fa fa-list" aria-hidden="true"></i>All Orders</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="innerWrapper singleOrder">
+                        <div class="orderBox">
+                            <h4>Order #{{ view.order.id }}</h4>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">Shipping Address</h4>
+                                    </div>
+                                    <div class="panel-body">
+                                        <address>
+                                            <strong>{{ view.order.shipping_address_first_name }} {{ view.order.shipping_address_last_name }}</strong><br>
+                                            {{ view.order.shipping_address_contact_no }} <br>
+                                            {{ view.order.shipping_address_line_1 }} {{ view.shipping_address_line_2 }} <br>
+                                            {{ view.order.shipping_address_city }} <br>
+                                            {{ view.order.shipping_address_province }} <br>
+                                            {{ view.order.get_shipping_address_country_display }} <br>
+                                        </address>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-xs-12">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">Payment Method</h4>
+                                    </div>
+                                    <div class="panel-body">
+                                        <address>
+                                            <span>Cash on Delivery</span>
+                                        </address>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-xs-12">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">Shipping Method</h4>
+                                    </div>
+                                    <div class="panel-body">
+                                        <address>
+                                            <span>Auto Parts Central Express</span>
+                                        </address>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12">
+                                <div class="cartListInner">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>Product Name</th>
+                                                <th>Price</th>
+                                                <th>Quantity</th>
+                                                <th>Sub Total</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for item in view.order.order_details.all %}
+                                                <tr>
+                                                    <td class="col-xs-2">
+                                                        <span class="cartImage"><img src="img/products/cart-image.jpg" alt="image"></span>
+                                                    </td>
+                                                    <td class="col-xs-4">{{ item.part_name }}</td>
+                                                    <td class="col-xs-2">&#8369;{{ item.unit_price }}</td>
+                                                    <td class="col-xs-2">{{ item.quantity }}</td>
+                                                    <td class="col-xs-2">&#8369;{{ item.net_price }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="row totalAmountArea">
+                                        <div class="col-sm-4 col-sm-offset-8 col-xs-12">
+                                            <ul class="list-unstyled">
+                                                <li>SUBTOTAL<span>&#8369;{{ view.subtotal_vat.subtotal }}</span></li>
+                                                <li>PH VAT<span>&#8369;{{ view.subtotal_vat.vat }}</span></li>
+                                                <li>GRAND TOTAL<span class="grandTotal">&#8369;{{ view.order.net_price }}</span></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--
+                            <div class="col-xs-12">
+                                <div class="btn-group" role="group" aria-label="...">
+                                    <button type="button" class="btn btn-default">Print</button>
+                                    <button type="button" class="btn btn-default">Save to pdf</button>
+                                    <button type="button" class="btn btn-default">cancel order</button>
+                                </div>
+                            </div>
+                            -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

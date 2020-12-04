@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load widget_tweaks %}
+
+{% block body_maincontent %}
+    <!-- LIGHT SECTION -->
+    <section class="lightSection clearfix pageHeader">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="page-title">
+                        <h2>billing &amp; Shipping address</h2>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <ol class="breadcrumb pull-right">
+                        <li>
+                            <a href="index.html">Home</a>
+                        </li>
+                        <li class="active">billing &amp; Shipping address</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAIN CONTENT SECTION -->
+    <section class="mainContent clearfix userProfile stepsWrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="btn-group" role="group" aria-label="...">
+                        <a href="{% url 'account_dashboard' %}" class="btn btn-default"><i class="fa fa-th" aria-hidden="true"></i>Account Dashboard</a>
+                        <a href="{% url 'account_profile' %}" class="btn btn-default"><i class="fa fa-user" aria-hidden="true"></i>Profile</a>
+                        <a href="{% url 'account_addresses' %}" class="btn btn-default active"><i class="fa fa-map-marker" aria-hidden="true"></i>My Address</a>
+                        <a href="{% url 'account_orders' %}" class="btn btn-default"><i class="fa fa-list" aria-hidden="true"></i>All Orders</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="innerWrapper clearfix stepsPage">
+                        <form method="POST" action="" {% if form.is_multipart %} enctype="multipart/form-data"{% endif %}>
+                            {% csrf_token %}
+                            <div class="col-xs-12">
+                                <div class="page-header">
+                                    <h4>Contact Information</h4>
+                                </div>
+                            </div>
+                            {% for error in form.non_field_errors %}
+                                <label>* {{ error }}</label>
+                            {% endfor %}
+                            <div class="form-group col-sm-6 col-xs-12">
+                                <label>{{ form.first_name.label }}</label>
+                                {% render_field form.first_name class="form-control" %}
+                                {{ form.first_name.errors.as_text }}
+                            </div>
+                            <div class="form-group col-sm-6 col-xs-12">
+                                <label>{{ form.last_name.label }}</label>
+                                {% render_field form.last_name class="form-control" %}
+                                {{ form.last_name.errors.as_text }}
+                            </div>
+                            <div class="form-group col-sm-6 col-xs-12">
+                                <label>Contact Number</label>
+                                {% render_field form.contact_no class="form-control" %}
+                                {{ form.contact_no.errors.as_text }}
+                            </div>
+                            <div class="col-xs-12">
+                                <div class="page-header">
+                                    <h4>Address Information</h4>
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-6 col-xs-12">
+                                <label>{{ form.line_1.label }}</label>
+                                {% render_field form.line_1 class="form-control" %}
+                                {{ form.line_1.errors.as_text }}
+                            </div>
+                            <div class="form-group col-sm-6 col-xs-12">
+                                <label>{{ form.line_2.label }}</label>
+                                {% render_field form.line_2 class="form-control" %}
+                                {{ form.line_2.errors.as_text }}
+                            </div>
+                            <div class="form-group col-sm-6 col-xs-12">
+                                <label>{{ form.city.label }}</label>
+                                {% render_field form.city class="form-control" %}
+                                {{ form.city.errors.as_text }}
+                            </div>
+                            <div class="form-group col-sm-6 col-xs-12">
+                                <label>{{ form.province.label }}</label>
+                                {% render_field form.province class="form-control" %}
+                                {{ form.province.errors.as_text }}
+                            </div>
+                            <div class="form-group col-sm-6 col-xs-12">
+                                <label>{{ form.country.label }}</label>
+                                {% render_field form.country class="form-control" %}
+                                {{ form.country.errors.as_text }}
+                            </div>
+                            <div class="col-xs-12">
+                                <div class="well well-lg clearfix">
+                                    <ul class="pager">
+                                        <li class="next"><a href="#" onclick="$(this).closest('form').submit();return false">Save</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

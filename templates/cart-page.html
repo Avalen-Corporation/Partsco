@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load carton_tags %}
+
+{% block body_maincontent %}
+    <!-- LIGHT SECTION -->
+    <section class="lightSection clearfix pageHeaderImage">
+        <div class="container">
+            <div class="tableBlock">
+                <div class="row tableInner">
+                    <div class="col-xs-12">
+                        <div class="page-title">
+                            <h2>cart</h2>
+                            <ol class="breadcrumb">
+                                <li>
+                                    <a href="index.html">Home</a>
+                                </li>
+                                <li class="active">cart</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAIN CONTENT SECTION -->
+    <section class="mainContent clearfix cartListWrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="cartListInner">
+                        <form action="#">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Product Name</th>
+                                        <th>Price</th>
+                                        <th>Quantity</th>
+                                        <th>Sub Total</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% get_cart as cart %}
+                                    {% for item in cart.items %}
+                                        <tr class="cart_item_row">
+                                            <td class="col-xs-2">
+                                                <button type="button" class="close cart_remove" data-slug="{{ item.product.slug }}" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                <span class="cartImage"><img src="img/products/cart-image.jpg" alt="image"></span>
+                                            </td>
+                                            <td class="col-xs-4">{{ item.product.name }}</td>
+                                            <td class="col-xs-2">&#8369;{{ item.price }}</td>
+                                            <td class="col-xs-2"><input class="cart_item_quantity" type="text" placeholder="{{ item.quantity }}"></td>
+                                            <td class="col-xs-2">&#8369;{{ item.subtotal }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="updateArea">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="I have a discount coupon" aria-describedby="basic-addon2">
+                                    <a href="#" class="btn input-group-addon" id="basic-addon2">apply coupon</a>
+                                </div>
+                                <a href="javascript:void(0)" class="btn" id="cart_update">update cart</a>
+                            </div>
+                            <div class="row totalAmountArea">
+                                <div class="col-sm-4 col-sm-offset-8 col-xs-12">
+                                    <ul class="list-unstyled">
+                                        <li>SUBTOTAL<span>&#8369;{{ view.subtotal_vat.subtotal }}</span></li>
+                                        <li>PH VAT<span>&#8369;{{ view.subtotal_vat.vat }}</span></li>
+                                        <li>GRAND TOTAL<span class="grandTotal">&#8369;{{ cart.total }}</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="checkBtnArea">
+                                <a href="{% url "checkout_login" %}" class="btn btn-primary btn-block">checkout<i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block body_scripts_extra %}
+    <script src="{% static "js/cookie.js" %}"></script>
+    <script src="{% static "js/cart.js" %}"></script>
+{% endblock %}

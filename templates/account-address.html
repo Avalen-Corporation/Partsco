@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block body_maincontent %}
+    <!-- LIGHT SECTION -->
+    <section class="lightSection clearfix pageHeader">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="page-title">
+                        <h2>MY ADDRESS</h2>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <ol class="breadcrumb pull-right">
+                        <li>
+                            <a href="index.html">Home</a>
+                        </li>
+                        <li class="active">MY ADDRESS</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAIN CONTENT SECTION -->
+    <section class="mainContent clearfix userProfile">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="btn-group" role="group" aria-label="...">
+                        <a href="{% url 'account_dashboard' %}" class="btn btn-default"><i class="fa fa-th" aria-hidden="true"></i>Account Dashboard</a>
+                        <a href="{% url 'account_profile' %}" class="btn btn-default"><i class="fa fa-user" aria-hidden="true"></i>Profile</a>
+                        <a href="{% url 'account_addresses' %}" class="btn btn-default active"><i class="fa fa-map-marker" aria-hidden="true"></i>My Address</a>
+                        <a href="{% url 'account_orders' %}" class="btn btn-default"><i class="fa fa-list" aria-hidden="true"></i>All Orders</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="innerWrapper">
+                        <div class="orderBox myAddress">
+                            <h4>My Address</h4>
+                            <a href="{% url 'account_addresses_add' %}">Add a new address</a>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th class="col-md-2 col-sm-3">Contact Number</th>
+                                        <th>Address</th>
+                                        <th>City</th>
+                                        <th>Province</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for address in view.addresses %}
+                                        <tr>
+                                            <td>{{ address.first_name }} {{ address.last_name }}</td>
+                                            <td>{{ address.contact_no }}</td>
+                                            <td>{{ address.line_1 }} {{ address.line_2 }}</td>
+                                            <td>{{ address.city }}</td>
+                                            <td>{{ address.province }}</td>
+                                            <td>
+                                                {% if address.id == request.user.userprofile.default_shipping_address.id %}
+                                                    Default
+                                                {% else %}
+                                                    <a href="javascript:void(0)" class="address_setdefault" data-address="{{ address.id }}">Set Default</a>
+                                                {% endif %}
+                                                <div class="btn-group" role="group">
+                                                    <button type="button" class="btn btn-default" onclick="location.href='{% url 'account_addresses_update' address.id %}';"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                                                    {% if address.id != request.user.userprofile.default_shipping_address.id %}
+                                                        <button type="button" class="btn btn-default address_delete" data-address="{{ address.id }}"><i class="fa fa-times" aria-hidden="true"></i></button>
+                                                    {% endif %}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block body_scripts_extra %}
+    <script src="{% static "js/cookie.js" %}"></script>
+    <script src="{% static "js/address.js" %}"></script>
+{% endblock %}

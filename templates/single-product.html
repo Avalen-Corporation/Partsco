@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block body_maincontent %}
+    <!-- LIGHT SECTION -->
+    <section class="lightSection clearfix pageHeader">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="page-title">
+                        <h2>Shop</h2>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <ol class="breadcrumb pull-right">
+                        <li>
+                            <a href="{% url 'index' %}">Home</a>
+                        </li>
+                        <li class="active">Shop</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAIN CONTENT SECTION -->
+    <section class="mainContent clearfix">
+        <div class="container">
+            <div class="row singleProduct">
+                <div class="col-xs-12">
+                    <div class="media">
+                        <div class="media-left productSlider">
+                            <div id="carousel" class="carousel slide" data-ride="carousel">
+                                <div class="carousel-inner">
+                                    {% if not view.part.images.all  %}
+                                        <div class="item active" data-thumb="0">
+                                            <img src="{% static "img/products/products-01.jpg" %}">
+                                        </div>
+                                    {% else %}
+                                        {% for image in view.part.images.all %}
+                                            <div class="item {% if forloop.counter0 == 0 %} active {% endif %}" data-thumb="{{ forloop.counter0 }}">
+                                                <img src="{{ image.image.url }}">
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="clearfix">
+                                <div id="thumbcarousel" class="carousel slide" data-interval="false">
+                                    <div class="carousel-inner">
+                                        {% if not view.part.images.all  %}
+                                            <div data-target="#carousel" data-slide-to="0" class="thumb"><img src="{% static "img/products/products-01.jpg" %}"></div>
+                                        {% else %}
+                                            {% for image in view.part.images.all %}
+                                                <div data-target="#carousel" data-slide-to="{{ forloop.counter0 }}" class="thumb"><img src="{{ image.image.url }}"></div>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </div>
+                                    <a class="left carousel-control" href="#thumbcarousel" role="button" data-slide="prev">
+                                        <span class="glyphicon glyphicon-chevron-left"></span>
+                                    </a>
+                                    <a class="right carousel-control" href="#thumbcarousel" role="button" data-slide="next">
+                                        <span class="glyphicon glyphicon-chevron-right"></span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="media-body">
+                            <h2>{{ view.part.name }}</h2>
+                            <h3>&#8369;{{ view.part.price }}</h3>
+                            <p>{{ view.part.description }}</p>
+                            <!--
+                            <span class="quick-drop">
+                                <select name="guiest_id3" id="guiest_id3" class="select-drop">
+                                    <option value="0">Size</option>
+                                    <option value="1">Small</option>
+                                    <option value="2">Medium</option>
+                                    <option value="3">Big</option>
+                                </select>
+                            </span>
+                            -->
+                            <span class="quick-drop resizeWidth">
+                                <select name="guiest_id4" id="guiest_id4" class="select-drop">
+                                    <option value="0">Qty</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                </select>
+                            </span>
+                            <div class="btn-area">
+                                <a href="javascript:void(0)" id="cart_add" data-slug="{{ view.part.slug }}" class="btn btn-primary btn-block">Add to cart <i class="fa fa-angle-right" aria-hidden="true"></i></a>
+                            </div>
+                            <!--
+                            <div class="tabArea">
+                                <ul class="nav nav-tabs">
+                                    <li class="active"><a data-toggle="tab" href="#details">details</a></li>
+                                    <li><a data-toggle="tab" href="#about-art">about art</a></li>
+                                    <li><a data-toggle="tab" href="#sizing">sizing</a></li>
+                                    <li><a data-toggle="tab" href="#shipping">shipping</a></li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div id="details" class="tab-pane fade in active">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                                        <ul class="list-unstyled">
+                                            <li>Black, Crew Neck</li>
+                                            <li>75% Cotton, 25% Rayon</li>
+                                            <li>Waterbased Ink</li>
+                                            <li>Wash Cold, dry low</li>
+                                        </ul>
+                                    </div>
+                                    <div id="about-art" class="tab-pane fade">
+                                        <p>Nulla facilisi. Mauris efficitur, massa et iaculis accumsan, mauris velit ultrices purus, quis condimentum nibh dolor ut tortor. Donec egestas tortor quis mattis gravida. Ut efficitur elit vitae dignissim volutpat. </p>
+                                    </div>
+                                    <div id="sizing" class="tab-pane fade">
+                                        <p>Praesent dui felis, gravida a auctor at, facilisis commodo ipsum. Cras eu faucibus justo. Nullam varius cursus nisi, sed elementum sem sagittis at. Nulla tellus massa, vestibulum a commodo facilisis, pulvinar convallis nunc.</p>
+                                    </div>
+                                    <div id="shipping" class="tab-pane fade">
+                                        <p>Mauris lobortis augue ex, ut faucibus nisi mollis ac. Sed volutpat scelerisque ex ut ullamcorper. Cras at velit quis sapien dapibus laoreet a id odio. Sed sit amet accumsan ante, eu congue metus. Aenean eros tortor, cursus quis feugiat sed, vestibulum vel purus.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block body_modals_extra %}
+    <!-- CART UPDATE MODAL -->
+    <div class="modal fade" id="cart_updated_modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3 class="modal-title">Cart</h3>
+                </div>
+                <div class="modal-body">
+                    Empty body
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block body_scripts_extra %}
+    <script src="{% static "js/cookie.js" %}"></script>
+    <script src="{% static "js/cart.js" %}"></script>
+{% endblock %}
